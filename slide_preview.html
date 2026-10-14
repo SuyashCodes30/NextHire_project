@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NextHire — Technical Architecture & Methodology (Slide Preview)</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: #0f172a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 20px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    .header-bar {
+      color: #f8fafc;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .header-bar h1 { font-size: 24px; font-weight: 700; }
+    .header-bar p { font-size: 14px; color: #94a3b8; margin-top: 5px; }
+
+    .slide-canvas {
+      width: 1200px;
+      height: 675px;
+      background: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 500px 330px 310px;
+      grid-template-rows: 60px 1fr;
+      padding: 20px 30px;
+      gap: 15px;
+    }
+
+    /* Titles */
+    .title-left {
+      grid-column: 1 / 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: #0f172a;
+    }
+    .title-right {
+      grid-column: 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: #0f172a;
+    }
+
+    /* Column 1: Technical Architecture Box */
+    .arch-container {
+      border: 1.5px dashed #94a3b8;
+      border-radius: 8px;
+      padding: 12px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .side-label-api {
+      position: absolute;
+      left: -48px;
+      top: 175px;
+      transform: rotate(-90deg);
+      font-size: 10px;
+      font-weight: 700;
+      color: #475569;
+      letter-spacing: 0.5px;
+    }
+    .side-label-data {
+      position: absolute;
+      left: -32px;
+      top: 360px;
+      transform: rotate(-90deg);
+      font-size: 10px;
+      font-weight: 700;
+      color: #475569;
+      letter-spacing: 0.5px;
+    }
+
+    .ui-box {
+      background: #e0f2fe;
+      border: 1.5px solid #38bdf8;
+      border-radius: 6px;
+      padding: 8px 12px;
+      text-align: center;
+      margin: 0 auto;
+      width: 75%;
+    }
+    .ui-box h3 { font-size: 13px; color: #0369a1; font-weight: 800; }
+    .ui-box p.primary { font-size: 11px; font-weight: 700; color: #0f172a; margin-top: 2px; }
+    .ui-box p.secondary { font-size: 9.5px; color: #475569; margin-top: 1px; }
+
+    .mid-row {
+      display: grid;
+      grid-template-columns: 125px 150px 165px;
+      gap: 8px;
+      align-items: stretch;
+      margin: 6px 0;
+    }
+    .card-apis {
+      background: #ffffff;
+      border: 1.5px solid #334155;
+      border-radius: 6px;
+      padding: 8px;
+    }
+    .card-apis h4 { font-size: 12px; text-align: center; color: #0f172a; margin-bottom: 5px; font-weight: 800; }
+    .card-apis ul { list-style: none; font-size: 8.5px; color: #334155; line-height: 1.35; }
+    .card-apis ul li { margin-bottom: 4px; }
+
+    .card-backend {
+      background: #dcfce7;
+      border: 1.5px solid #22c55e;
+      border-radius: 6px;
+      padding: 8px 6px;
+      text-align: center;
+    }
+    .card-backend h4 { font-size: 12px; color: #15803d; font-weight: 800; }
+    .card-backend .badge { font-size: 9.5px; font-weight: 700; color: #166534; margin: 3px 0; }
+    .card-backend ul { list-style: none; font-size: 8.5px; color: #14532d; text-align: left; padding-left: 6px; line-height: 1.35; }
+
+    .card-sec {
+      background: #f3e8ff;
+      border: 1.5px solid #a855f7;
+      border-radius: 6px;
+      padding: 8px 6px;
+    }
+    .card-sec h4 { font-size: 12px; text-align: center; color: #7e22ce; margin-bottom: 4px; font-weight: 800; }
+    .card-sec ul { list-style: none; font-size: 8.5px; color: #581c87; line-height: 1.35; }
+    .card-sec ul li { margin-bottom: 3px; }
+
+    .bot-mid-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 6px 0;
+    }
+    .card-ai {
+      background: #f0fdfa;
+      border: 1.5px solid #14b8a6;
+      border-radius: 6px;
+      padding: 8px;
+    }
+    .card-ai h4 { font-size: 12px; text-align: center; color: #0f766e; margin-bottom: 4px; font-weight: 800; }
+    .card-ai ul { list-style: none; font-size: 8.5px; color: #134e4a; line-height: 1.35; }
+
+    .card-db {
+      background: #eff6ff;
+      border: 1.5px solid #3b82f6;
+      border-radius: 6px;
+      padding: 8px;
+    }
+    .card-db h4 { font-size: 12px; text-align: center; color: #1d4ed8; margin-bottom: 4px; font-weight: 800; }
+    .card-db ul { list-style: none; font-size: 8.5px; color: #1e3a8a; line-height: 1.35; }
+
+    .cloud-row {
+      background: #ffffff;
+      border: 1.5px solid #0f172a;
+      border-radius: 6px;
+      padding: 8px;
+      text-align: center;
+    }
+    .cloud-row h4 { font-size: 12px; color: #0f172a; font-weight: 800; margin-bottom: 3px; }
+    .cloud-row p { font-size: 9.5px; font-weight: 700; color: #1e293b; }
+
+    /* Column 2: Tech Stack & Highlights */
+    .center-col {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .card-techstack {
+      background: #fee2e2;
+      border: 1.5px solid #fca5a5;
+      border-radius: 8px;
+      padding: 14px;
+      flex: 1;
+    }
+    .card-techstack h3 { font-size: 15px; color: #991b1b; font-weight: 800; margin-bottom: 8px; }
+    .card-techstack ul { list-style: none; font-size: 9.5px; color: #1e293b; line-height: 1.5; }
+    .card-techstack ul li { margin-bottom: 5px; }
+    .card-techstack strong { color: #0f172a; }
+
+    .card-highlights {
+      background: #e0f2fe;
+      border: 1.5px solid #7dd3fc;
+      border-radius: 8px;
+      padding: 14px;
+      flex: 1.1;
+    }
+    .card-highlights h3 { font-size: 15px; color: #0369a1; font-weight: 800; margin-bottom: 8px; }
+    .card-highlights ul { list-style: none; font-size: 9.5px; color: #0f172a; line-height: 1.5; }
+    .card-highlights ul li { margin-bottom: 5px; }
+
+    /* Column 3: Methodology Flow */
+    .meth-col {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      justify-content: space-between;
+    }
+    .meth-step {
+      background: #ffffff;
+      border: 1.5px solid #22c55e;
+      border-radius: 6px;
+      padding: 6px 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .meth-badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #dcfce7;
+      border: 1.5px solid #16a34a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .meth-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .meth-info h4 { font-size: 10px; font-weight: 800; color: #15803d; }
+    .meth-info p { font-size: 8px; color: #334155; margin-top: 1px; font-weight: 500; }
+
+    .meth-arrow {
+      text-align: center;
+      color: #16a34a;
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 900;
+      margin: -2px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header-bar">
+    <h1>NextHire Platform — Presentation Slide Preview</h1>
+    <p>Matches Reference Layout: Technical Architecture (Left) | Tech Stack & Highlights (Center) | Methodology (Right)</p>
+  </div>
+
+  <div class="slide-canvas">
+    <!-- Row 1 Titles -->
+    <div class="title-left">TECHNICAL ARCHITECTURE</div>
+    <div class="title-right">METHODOLOGY</div>
+
+    <!-- Col 1: Architecture -->
+    <div class="arch-container">
+      <div class="side-label-api">External API Integration</div>
+      <div class="side-label-data">AI & Data Layer</div>
+
+      <!-- User Interface -->
+      <div class="ui-box">
+        <h3>User Interface</h3>
+        <p class="primary">🌐 NextHire Web UI (HTML5 / Vanilla JS / CSS3)</p>
+        <p class="secondary">🎮 Game Arena • 🎙️ Audio Suite • 🌓 Dark/Light Themes</p>
+      </div>
+
+      <div style="text-align:center; color:#64748b; font-size:12px; margin:-2px 0;">↓</div>
+
+      <!-- Middle 3 Boxes -->
+      <div class="mid-row">
+        <div class="card-apis">
+          <h4>APIs</h4>
+          <ul>
+            <li>🎙️ Web Speech STT</li>
+            <li>🔊 Web Audio TTS</li>
+            <li>🧠 OpenAI / Gemini</li>
+            <li>📑 Swagger 3.0 Docs</li>
+          </ul>
+        </div>
+
+        <div class="card-backend">
+          <h4>API Gateway /<br>Backend</h4>
+          <div class="badge">☕ Spring Boot 3.4</div>
+          <ul>
+            <li>• Java 21 REST API</li>
+            <li>• Controllers & Services</li>
+            <li>• Port 8080 Routing</li>
+            <li>• CORS Web Config</li>
+          </ul>
+        </div>
+
+        <div class="card-sec">
+          <h4>Authentication &<br>Security</h4>
+          <ul>
+            <li>🔐 Auth Controller</li>
+            <li>🛡️ Session & JWT Tokens</li>
+            <li>🔒 Password Security</li>
+            <li>⚡ Role-Based Access</li>
+            <li>🌐 CORS Origin Filters</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:space-around; color:#64748b; font-size:12px; margin:-2px 0;">
+        <span>↓</span>
+        <span>↓</span>
+      </div>
+
+      <!-- Bottom-Mid 2 Boxes -->
+      <div class="bot-mid-row">
+        <div class="card-ai">
+          <h4>AI / LLM Engine 🧠</h4>
+          <ul>
+            <li>• Prompt Mock Interview Simulation</li>
+            <li>• STAR Framework Scoring Engine</li>
+            <li>• Instant Feedback Generator</li>
+            <li>• Adaptive Role Questioning</li>
+          </ul>
+        </div>
+
+        <div class="card-db">
+          <h4>Data & Storage 🗄️</h4>
+          <ul>
+            <li>• In-Memory Progress Tracker</li>
+            <li>• Profiles, Streaks (🔥) & XP</li>
+            <li>• Game Arena High Score Maps</li>
+            <li>• JPA / PostgreSQL-Ready</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="text-align:center; color:#64748b; font-size:12px; margin:-2px 0;">↓</div>
+
+      <!-- Cloud & Deployment -->
+      <div class="cloud-row">
+        <h4>Cloud & Deployment</h4>
+        <p>▲ Vercel (Frontend CDN) &nbsp;&bull;&nbsp; ☁️ Render (Docker Web Service) &nbsp;&bull;&nbsp; 🐳 Docker (Java 21 JVM) &nbsp;&bull;&nbsp; 🐙 GitHub (CI/CD Repo)</p>
+      </div>
+    </div>
+
+    <!-- Col 2: Tech Stack & Highlights -->
+    <div class="center-col">
+      <div class="card-techstack">
+        <h3>Tech Stack</h3>
+        <ul>
+          <li><strong>• Frontend:</strong> HTML5, Vanilla JS (ES6+), CSS3 (Modern Dark/Light UI)</li>
+          <li><strong>• Backend:</strong> Java 21, Spring Boot 3.4.3 REST API (Maven)</li>
+          <li><strong>• Database:</strong> In-Memory Concurrent Store (PostgreSQL / JPA Architecture)</li>
+          <li><strong>• AI Engine:</strong> Heuristic STAR Evaluator + LLM Integration (OpenAI/Gemini)</li>
+          <li><strong>• Authentication:</strong> Session & Token Security, CORS Registry</li>
+          <li><strong>• Deployment:</strong> Vercel (Frontend) + Render (Docker JVM) + GitHub</li>
+        </ul>
+      </div>
+
+      <div class="card-highlights">
+        <h3>Key Technical Highlights</h3>
+        <ul>
+          <li><strong>• Real-time AI Mock Interviews:</strong> Adaptive category & difficulty questioning</li>
+          <li><strong>• Automated STAR Method Evaluation:</strong> Quantitative scoring (0–100) & actionable feedback</li>
+          <li><strong>• Duolingo-Style Gamification:</strong> Daily streaks (🔥), XP counters (⚡), & badges</li>
+          <li><strong>• Interactive Game Arena:</strong> Live coding challenges & category quests</li>
+          <li><strong>• Dual-Mode Audio:</strong> Browser-native Speech-to-Text & Synthesizer</li>
+          <li><strong>• Production Zero-Config Deploy:</strong> Containerized Spring Boot on Render & Vercel CDN</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Col 3: Methodology Flow -->
+    <div class="meth-col">
+      <div class="meth-step">
+        <div class="meth-badge">👤</div>
+        <div class="meth-info">
+          <h4>1. ONBOARD & PROFILE</h4>
+          <p>Register / Login → Select Target Role & Skills</p>
+        </div>
+      </div>
+      <div class="meth-arrow">↓</div>
+
+      <div class="meth-step">
+        <div class="meth-badge">🎯</div>
+        <div class="meth-info">
+          <h4>2. SELECT & CONFIGURE</h4>
+          <p>Choose Category (Tech/HR/Arena) → Set Difficulty</p>
+        </div>
+      </div>
+      <div class="meth-arrow">↓</div>
+
+      <div class="meth-step">
+        <div class="meth-badge">🎙️</div>
+        <div class="meth-info">
+          <h4>3. AI MOCK INTERVIEW</h4>
+          <p>Adaptive AI Questions → Voice / Text Input</p>
+        </div>
+      </div>
+      <div class="meth-arrow">↓</div>
+
+      <div class="meth-step">
+        <div class="meth-badge">🛡️</div>
+        <div class="meth-info">
+          <h4>4. STAR EVALUATION</h4>
+          <p>Automated Scoring (0-100) → STAR Breakdown</p>
+        </div>
+      </div>
+      <div class="meth-arrow">↓</div>
+
+      <div class="meth-step">
+        <div class="meth-badge">⭐</div>
+        <div class="meth-info">
+          <h4>5. EARN XP & ARENA</h4>
+          <p>Earn XP (⚡) & Streaks (🔥) → Game Arena Levels</p>
+        </div>
+      </div>
+      <div class="meth-arrow">↓</div>
+
+      <div class="meth-step">
+        <div class="meth-badge">🚀</div>
+        <div class="meth-info">
+          <h4>6. CAREER IMPACT</h4>
+          <p>Readiness Report → Confidence Boost → Job Ready</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

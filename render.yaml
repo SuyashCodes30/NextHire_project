@@ -1,0 +1,29 @@
+services:
+  # ============================================================================
+  # NextHire Backend — Spring Boot 3 REST API (Docker Web Service)
+  # ============================================================================
+  - type: web
+    name: nexthire-backend
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /api/health
+    envVars:
+      - key: PORT
+        value: 8080
+      - key: JAVA_OPTS
+        value: "-Xms128m -Xmx384m -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0"
+
+  # ============================================================================
+  # NextHire Frontend — HTML/JS/CSS (Static Site on Render — 100% Free Forever)
+  # (You can also deploy the frontend to Vercel or Netlify)
+  # ============================================================================
+  - type: web
+    name: nexthire-frontend
+    runtime: static
+    plan: free
+    region: oregon
+    buildCommand: ""
+    staticPublishPath: .
