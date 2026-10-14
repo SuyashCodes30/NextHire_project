@@ -17,13 +17,13 @@ services:
         value: "-Xms128m -Xmx384m -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0"
 
   # ============================================================================
-  # NextHire Frontend — HTML/JS/CSS (Static Site on Render — 100% Free Forever)
-  # (You can also deploy the frontend to Vercel or Netlify)
+  # NextHire Frontend (Optional: Uncomment if you also want a Render Static Site)
+  # Frontend is hosted on Vercel by default!
   # ============================================================================
-  - type: web
-    name: nexthire-frontend
-    runtime: static
-    plan: free
-    region: oregon
-    buildCommand: ""
-    staticPublishPath: .
+  # - type: web
+  #   name: nexthire-frontend
+  #   runtime: static
+  #   plan: free
+  #   region: oregon
+  #   buildCommand: ""
+  #   staticPublishPath: .

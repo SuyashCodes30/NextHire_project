@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NH AI Platform — Enterprise AI & Operational Intelligence</title>
+    <meta name="description"
+        content="Enterprise AI platform for mock interviews, compliance evaluation, performance scoring, and operational readiness analytics.">
+    <!-- Google Fonts: Inter (body/UI) + Plus Jakarta Sans (headings) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/png" href="logo.png">
+    <script>
+        (function () {
+            var savedTheme = localStorage.getItem('nh_theme');
+            var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            var theme = savedTheme ? savedTheme : (prefersDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- SIDEBAR NAVIGATION (Duolingo-style) -->
+    <header class="navbar-container">
+        <nav class="navbar">
+            <!-- Logo at top -->
+            <a href="#" class="brand-logo">
+                <img src="logo.png" alt="DEFEX Logo" class="logo-img">
+                <span class="brand-name"><span class="brand-accent">NextHire</span></span>
+            </a>
+
+            <!-- Navigation Links with Icons -->
+            <ul class="nav-links">
+                <li>
+                    <a href="#home" class="nav-link active">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-label">Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#how-it-works" class="nav-link">
+                        <span class="nav-icon">⚙️</span>
+                        <span class="nav-label">How It Works</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#interview-types" class="nav-link">
+                        <span class="nav-icon">📂</span>
+                        <span class="nav-label">Categories</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#learning" class="nav-link" id="nhNavLearningBtn">
+                        <span class="nav-icon">📚</span>
+                        <span class="nav-label">English Academy</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#trending" class="nav-link" id="nhNavTrendingBtn">
+                        <span class="nav-icon">🔥</span>
+                        <span class="nav-label">Trending</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="arena.html" class="nav-link" id="nhNavArenaBtn" title="Play NextHire Game Arena">
+                        <span class="nav-icon">🎮</span>
+                        <span class="nav-label">Game Arena</span>
+                        <span class="nav-pill-badge"
+                            style="background: linear-gradient(135deg, #a855f7, #06b6d4); color: #fff; font-size: 0.65rem; font-weight: 800; padding: 2px 7px; border-radius: 999px; margin-left: 5px; box-shadow: 0 0 10px rgba(168, 85, 247, 0.4);">XP</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#about" class="nav-link">
+                        <span class="nav-icon">👤</span>
+                        <span class="nav-label">About</span>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Bottom: Gamification + Actions -->
+            <div class="nav-actions">
+                <div class="nav-gamification">
+                    <div class="streak-pill-nav" title="Streak Days — Click to Open Game Arena"
+                        onclick="window.location.href='arena.html'" style="cursor: pointer;">
+                        <span class="fire-icon">🔥</span>
+                        <span class="streak-count" id="nhStreakCount">7</span>
+                    </div>
+                    <div class="xp-pill-nav" title="XP Points — Click to Open Game Arena"
+                        onclick="window.location.href='arena.html'" style="cursor: pointer;">
+                        <span class="xp-star">⚡</span>
+                        <span class="xp-val" id="nhXpVal">250 XP</span>
+                    </div>
+                </div>
+
+                <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle Light and Dark Theme"
+                    title="Switch Theme">
+                    <div class="theme-toggle-track">
+                        <svg class="theme-icon icon-sun" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                        <svg class="theme-icon icon-moon" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                        <span class="theme-toggle-thumb"></span>
+                    </div>
+                </button>
+                <a href="login.html" class="btn-duo-secondary btn-nav-login" id="nhNavLoginBtn">Log in</a>
+                <a href="#start" class="btn-duo-primary btn-nav-start" data-wip="true">Start practicing</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section class="hero-section" id="home">
+            <div class="container hero-container">
+                <!-- Left Hero Content -->
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <span class="badge-sparkle">⚡</span>
+                        <span class="badge-text">AI-Powered Interview Preparation</span>
+                    </div>
+
+                    <h1 class="hero-title">
+                        Practice Smarter. Interview Better. <span class="text-gradient-cyan">Land Your Dream Job.</span>
+                    </h1>
+
+                    <p class="hero-subtitle">
+                        Get realistic AI mock interviews, instant feedback on your answers, and track your growth — so
+                        you walk into every interview with confidence.
+                    </p>
+
+                    <div class="hero-cta-group">
+                        <a href="#start" class="btn-duo-primary btn-hero-lg" data-wip="true">Start Practicing Free</a>
+                        <a href="#how-it-works" class="btn-duo-blue btn-hero-lg">
+                            <span class="play-icon">▶</span> See how it works
+                        </a>
+                    </div>
+
+                    <div class="hero-trust-bar">
+                        <span class="trust-item"><span class="bullet-check">✓</span> AI-powered feedback</span>
+                        <span class="trust-divider">•</span>
+                        <span class="trust-item"><span class="bullet-check">✓</span> Real interview questions</span>
+                        <span class="trust-divider">•</span>
+                        <span class="trust-item"><span class="bullet-check">✓</span> Track your progress</span>
+                    </div>
+                </div>
+
+                <!-- Right Hero Visual Dashboard Mockup -->
+                <div class="hero-visual">
+                    <div class="dashboard-mockup-card">
+                        <!-- Mockup Header -->
+                        <div class="mockup-header">
+                            <div class="window-dots">
+                                <span class="dot dot-red"></span>
+                                <span class="dot dot-yellow"></span>
+                                <span class="dot dot-green"></span>
+                            </div>
+                            <div class="mockup-title-badge">AI interview session</div>
+                            <div class="recording-pill">
+                                <span class="rec-dot"></span>
+                                <span class="rec-text">01:42</span>
+                            </div>
+                        </div>
+
+                        <!-- Candidate & Role Info -->
+                        <div class="candidate-bar">
+                            <div class="candidate-profile">
+                                <div class="candidate-avatar" id="nhHeroAvatar">A</div>
+                                <div class="candidate-details">
+                                    <span class="candidate-name" id="nhHeroCandidateName">Sam</span>
+                                    <span class="candidate-role">Role: <strong
+                                            id="nhHeroCandidateRole">CEO</strong></span>
+                                </div>
+                            </div>
+                            <div class="mode-tag">Audio session</div>
+                        </div>
+
+                        <!-- Current Question Box -->
+                        <div class="question-box">
+                            <div class="question-label">Current question</div>
+                            <p class="question-text" id="nhHeroQuestionText">“Tell me about Claude features which are
+                                copied from chatgpt.”</p>
+                            <div class="audio-wave">
+                                <span class="wave-bar bar-1"></span>
+                                <span class="wave-bar bar-2"></span>
+                                <span class="wave-bar bar-3"></span>
+                                <span class="wave-bar bar-4"></span>
+                                <span class="wave-bar bar-5"></span>
+                                <span class="wave-bar bar-6"></span>
+                                <span class="wave-bar bar-7"></span>
+                            </div>
+                        </div>
+
+                        <!-- AI Performance Score Card -->
+                        <div class="ai-score-card">
+                            <div class="score-card-header">
+                                <span class="score-card-title">AI Performance Score</span>
+                                <span class="score-badge">Instant evaluation</span>
+                            </div>
+
+                            <div class="score-body">
+                                <!-- Ring Score Widget -->
+                                <div class="score-ring-container">
+                                    <div class="css-score-ring" id="nhHeroScoreRing" style="--score-deg: 309.6deg;">
+                                        <div class="ring-inner">
+                                            <span class="score-number" id="nhHeroScoreVal">86</span>
+                                            <span class="score-max">/ 100</span>
+                                        </div>
+                                    </div>
+                                    <span class="ring-label" id="nhHeroScoreLabel">Great Job! 🔥</span>
+                                </div>
+
+                                <!-- Skill Breakdown Progress Bars -->
+                                <div class="skill-bars-group">
+                                    <div class="skill-item">
+                                        <div class="skill-info">
+                                            <span class="skill-name">Accuracy Rate</span>
+                                            <span class="skill-percentage" id="nhHeroCommVal">--%</span>
+                                        </div>
+                                        <div class="progress-track">
+                                            <div class="progress-fill fill-blue" id="nhHeroCommBar" style="width: 0%;">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="skill-item">
+                                        <div class="skill-info">
+                                            <span class="skill-name">Verified Answers</span>
+                                            <span class="skill-percentage" id="nhHeroConfVal">--%</span>
+                                        </div>
+                                        <div class="progress-track">
+                                            <div class="progress-fill fill-green" id="nhHeroConfBar"
+                                                style="width: 0%;"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="skill-item">
+                                        <div class="skill-info">
+                                            <span class="skill-name">Technical Accuracy</span>
+                                            <span class="skill-percentage" id="nhHeroTechVal">--%</span>
+                                        </div>
+                                        <div class="progress-track">
+                                            <div class="progress-fill fill-purple" id="nhHeroTechBar"
+                                                style="width: 0%;"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="skill-item">
+                                        <div class="skill-info">
+                                            <span class="skill-name">Question Completion</span>
+                                            <span class="skill-percentage" id="nhHeroStructVal">--%</span>
+                                        </div>
+                                        <div class="progress-track">
+                                            <div class="progress-fill fill-gold" id="nhHeroStructBar"
+                                                style="width: 0%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Floating Mini Badge -->
+                        <div class="floating-badge badge-top-right">
+                            <span class="f-icon">🎯</span>
+                            <div class="f-text">
+                                <strong>Objective Scoring</strong>
+                                <span>Verified criteria &amp; semantic analysis</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GAMIFICATION SECTION -->
+        <section class="gamification-section">
+            <div class="container">
+                <div class="section-header text-left-header">
+                    <div class="section-tag">Progression roadmap</div>
+                    <h2 class="section-title">Every interview makes you better.</h2>
+                    <p class="section-subtitle">Build your interview skills step by step with engaging milestones.</p>
+                </div>
+
+                <!-- Progression Path Card -->
+                <div class="gamification-card">
+                    <div class="progression-path">
+                        <!-- Step 1 -->
+                        <div class="path-step completed">
+                            <div class="node-wrapper">
+                                <div class="node-circle">
+                                    <span class="node-check">✓</span>
+                                </div>
+                                <div class="node-line"></div>
+                            </div>
+                            <div class="step-content">
+                                <div class="step-header-left">
+                                    <div class="step-icon-badge">🚀</div>
+                                    <h3 class="step-title">01 — Start Practicing</h3>
+                                </div>
+                                <p class="step-desc">Pick your role, level, and launch a real-time voice interview
+                                    session.</p>
+                                <span class="step-status status-done">Completed</span>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="path-step completed">
+                            <div class="node-wrapper">
+                                <div class="node-circle">
+                                    <span class="node-check">✓</span>
+                                </div>
+                                <div class="node-line"></div>
+                            </div>
+                            <div class="step-content">
+                                <div class="step-header-left">
+                                    <div class="step-icon-badge">🧠</div>
+                                    <h3 class="step-title">02 — Analyze Your Answers</h3>
+                                </div>
+                                <p class="step-desc">Receive instant AI feedback on vocabulary, tone, confidence &
+                                    depth.</p>
+                                <span class="step-status status-done">Completed</span>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="path-step active">
+                            <div class="node-wrapper">
+                                <div class="node-circle">
+                                    <span class="node-active-star">⭐</span>
+                                </div>
+                                <div class="node-line"></div>
+                            </div>
+                            <div class="step-content">
+                                <div class="step-header-left">
+                                    <div class="step-icon-badge">🎯</div>
+                                    <h3 class="step-title">03 — Improve Weak Areas</h3>
+                                </div>
+                                <p class="step-desc">Target low-scoring metrics using customized STAR method prompts.
+                                </p>
+                                <span class="step-status status-active">In progress</span>
+                            </div>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="path-step locked">
+                            <div class="node-wrapper">
+                                <div class="node-circle">
+                                    <span class="node-lock">🔒</span>
+                                </div>
+                            </div>
+                            <div class="step-content">
+                                <div class="step-header-left">
+                                    <div class="step-icon-badge">🏆</div>
+                                    <h3 class="step-title">04 — Become Interview Ready</h3>
+                                </div>
+                                <p class="step-desc">Achieve 90%+ readiness score and crush real company interviews.</p>
+                                <span class="step-status status-locked">Locked</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Achievement Card Banner -->
+                    <div class="achievement-banner">
+                        <div class="achievement-left">
+                            <div class="trophy-icon">🏆</div>
+                            <div class="achievement-info">
+                                <h4 class="achievement-title">Interview Streak: 7 Days</h4>
+                                <p class="achievement-subtitle">You're in the top 5% of active interview learners!</p>
+                            </div>
+                        </div>
+                        <div class="xp-badge">
+                            <span class="xp-icon">⚡</span>
+                            <span class="xp-amount">+250 XP</span>
+                        </div>
+                    </div>
+
+                    <!-- NextHire Game Arena Callout Banner -->
+                    <div class="arena-entry-banner"
+                        style="margin-top: 1.5rem; padding: 1.5rem 1.8rem; border-radius: 16px; background: linear-gradient(135deg, rgba(168, 85, 247, 0.12) 0%, rgba(6, 182, 212, 0.08) 100%); border: 1px solid rgba(168, 85, 247, 0.28); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.25rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem; max-width: 600px;">
+                            <div
+                                style="width: 52px; height: 52px; border-radius: 14px; background: linear-gradient(135deg, #a855f7, #06b6d4); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; flex-shrink: 0; box-shadow: 0 8px 20px -4px rgba(168, 85, 247, 0.4);">
+                                🎮</div>
+                            <div>
+                                <h4
+                                    style="font-size: 1.12rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.25rem;">
+                                    NextHire Game Arena is Live!</h4>
+                                <p
+                                    style="font-size: 0.88rem; color: var(--text-secondary); margin: 0; line-height: 1.45;">
+                                    Conquer 5 progressive career domains from Syntax Rookie to Boss Champion, unlock
+                                    achievements, and climb the challenger leaderboard.</p>
+                            </div>
+                        </div>
+                        <a href="arena.html" class="btn-duo-primary"
+                            style="padding: 0.75rem 1.4rem; font-size: 0.95rem; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 12px; white-space: nowrap;">
+                            <span>Enter Game Arena</span>
+                            <span>➔</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HOW IT WORKS SECTION -->
+        <section class="how-it-works-section" id="how-it-works">
+            <div class="container">
+                <div class="section-header text-left-header">
+                    <div class="section-tag">How it works</div>
+                    <h2 class="section-title">How AI Interview Analyzer Works</h2>
+                    <p class="section-subtitle">Designed to give you maximum results with minimum setup time.</p>
+                </div>
+
+                <div class="steps-grid">
+                    <!-- Step Card 01 -->
+                    <div class="step-card">
+                        <div class="step-badge-top">Step 01</div>
+                        <div class="step-card-header-left">
+                            <div class="step-card-icon">📋</div>
+                            <h3 class="step-card-title">Choose Your Interview</h3>
+                        </div>
+                        <p class="step-card-desc">Select the exact role and focus area you want to practice for today.
+                        </p>
+
+                        <div class="step-pills-list">
+                            <span class="pill-item pill-blue">Technical</span>
+                            <span class="pill-item pill-green">HR</span>
+                            <span class="pill-item pill-purple">Behavioral</span>
+                            <span class="pill-item pill-gold">Coding</span>
+                            <span class="pill-item pill-coral">Managerial</span>
+                        </div>
+                    </div>
+
+                    <!-- Step Card 02 -->
+                    <div class="step-card highlight-step">
+                        <div class="step-badge-top badge-green">Step 02</div>
+                        <div class="step-card-header-left">
+                            <div class="step-card-icon">🎙️</div>
+                            <h3 class="step-card-title">Take the Interview</h3>
+                        </div>
+                        <p class="step-card-desc">Answer realistic questions through a simulated voice interview
+                            experience with adaptive followup questions.</p>
+                        <div class="step-visual-mini">
+                            <div class="mic-pulse">
+                                <span class="mic-icon">🎤</span>
+                            </div>
+                            <span class="sim-text">Simulating Interviewer...</span>
+                        </div>
+                    </div>
+
+                    <!-- Step Card 03 -->
+                    <div class="step-card">
+                        <div class="step-badge-top">Step 03</div>
+                        <div class="step-card-header-left">
+                            <div class="step-card-icon">📊</div>
+                            <h3 class="step-card-title">Get AI Feedback</h3>
+                        </div>
+                        <p class="step-card-desc">Receive detailed feedback, scores, key strengths, weak points, and
+                            actionable improvement suggestions.</p>
+                        <div class="step-visual-chart">
+                            <div class="mini-bar b1" style="height: 60%;"></div>
+                            <div class="mini-bar b2" style="height: 85%;"></div>
+                            <div class="mini-bar b3" style="height: 75%;"></div>
+                            <div class="mini-bar b4" style="height: 95%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURES SECTION -->
+        <section class="features-section" id="features">
+            <div class="container">
+                <div class="section-header text-left-header">
+                    <div class="section-tag">What&rsquo;s included</div>
+                    <h2 class="section-title">Everything You Need to Interview Better.</h2>
+                    <p class="section-subtitle">Comprehensive tools designed to build your confidence and refine your
+                        answers.</p>
+                </div>
+
+                <div class="features-grid">
+                    <!-- Feature 1 -->
+                    <div class="feature-card icon-left-card">
+                        <div class="feature-icon-wrapper feat-purple">
+                            <span>🎤</span>
+                        </div>
+                        <div class="feature-text-group">
+                            <h3 class="feature-title">AI Mock Interviews</h3>
+                            <p class="feature-desc">Practice realistic interview conversations with dynamic, natural
+                                audio responses tuned to real tech roles.</p>
+                        </div>
+                    </div>
+
+                    <!-- Feature 2 -->
+                    <div class="feature-card icon-left-card">
+                        <div class="feature-icon-wrapper feat-blue">
+                            <span>📊</span>
+                        </div>
+                        <div class="feature-text-group">
+                            <h3 class="feature-title">Smart Performance Analysis</h3>
+                            <p class="feature-desc">Understand exactly how you performed with instant metric scoring
+                                across clarity, pace, confidence, and structure.</p>
+                        </div>
+                    </div>
+
+                    <!-- Feature 3 -->
+                    <div class="feature-card icon-left-card">
+                        <div class="feature-icon-wrapper feat-green">
+                            <span>🧠</span>
+                        </div>
+                        <div class="feature-text-group">
+                            <h3 class="feature-title">AI-Powered Feedback</h3>
+                            <p class="feature-desc">Get personalized suggestions after every answer highlighting what
+                                sounded great and what to rephrase.</p>
+                        </div>
+                    </div>
+
+                    <!-- Feature 4 -->
+                    <div class="feature-card icon-left-card">
+                        <div class="feature-icon-wrapper feat-gold">
+                            <span>📈</span>
+                        </div>
+                        <div class="feature-text-group">
+                            <h3 class="feature-title">Skill Tracking</h3>
+                            <p class="feature-desc">Track your improvement over multiple interview rounds and monitor
+                                your readiness growth curve over time.</p>
+                        </div>
+                    </div>
+
+                    <!-- Feature 5 -->
+                    <div class="feature-card icon-left-card">
+                        <div class="feature-icon-wrapper feat-rose">
+                            <span>🎯</span>
+                        </div>
+                        <div class="feature-text-group">
+                            <h3 class="feature-title">Personalized Questions</h3>
+                            <p class="feature-desc">Tailored interview questions based on your specific job role,
+                                experience level, industry, and stack.</p>
+                        </div>
+                    </div>
+
+                    <!-- Feature 6 -->
+                    <div class="feature-card icon-left-card">
+                        <div class="feature-icon-wrapper feat-cyan">
+                            <span>🏆</span>
+                        </div>
+                        <div class="feature-text-group">
+                            <h3 class="feature-title">Achievements & Streaks</h3>
+                            <p class="feature-desc">Stay motivated with weekly streak badges, XP points, and milestone
+                                unlocks as you build daily habits.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INTERVIEW TYPES SECTION -->
+        <section class="interview-types-section" id="interview-types">
+            <div class="container">
+                <div class="section-header text-left-header">
+                    <div class="section-tag">Practice categories</div>
+                    <h2 class="section-title">Practice Any Interview.</h2>
+                    <p class="section-subtitle">Target specific rounds to prepare for every phase of your job search.
+                    </p>
+                </div>
+
+                <div class="types-grid" id="nhCategoryGrid">
+                    <!-- Category 1: Software Developer -->
+                    <div class="type-card icon-left-type-card" data-category="software-developer">
+                        <div class="type-header-row">
+                            <div class="type-icon icon-blue">💻</div>
+                            <div class="type-title-meta">
+                                <h3 class="type-title">Software Developer</h3>
+                                <span class="type-badge">Popular</span>
+                            </div>
+                        </div>
+                        <p class="type-desc">Programming, DSA, OOP, DBMS, and Computer Networks system design rounds.
+                        </p>
+                        <a href="#start" class="btn-duo-small btn-duo-blue nh-cat-launch-btn"
+                            data-category-id="software-developer" data-role="Software Engineer">Practice &rarr;</a>
+                    </div>
+
+                    <!-- Category 2: Data Analyst -->
+                    <div class="type-card icon-left-type-card" data-category="data-analyst">
+                        <div class="type-header-row">
+                            <div class="type-icon icon-green">📊</div>
+                            <div class="type-title-meta">
+                                <h3 class="type-title">Data Analyst</h3>
+                                <span class="type-badge">High Demand</span>
+                            </div>
+                        </div>
+                        <p class="type-desc">SQL, Advanced Excel, Statistics, Data Visualization, and Analytical
+                            Thinking.</p>
+                        <a href="#start" class="btn-duo-small btn-duo-primary nh-cat-launch-btn"
+                            data-category-id="data-analyst" data-role="Data Analyst">Practice &rarr;</a>
+                    </div>
+
+                    <!-- Category 3: Data Scientist -->
+                    <div class="type-card icon-left-type-card" data-category="data-scientist">
+                        <div class="type-header-row">
+                            <div class="type-icon icon-purple">🧠</div>
+                            <div class="type-title-meta">
+                                <h3 class="type-title">Data Scientist</h3>
+                            </div>
+                        </div>
+                        <p class="type-desc">Python, Machine Learning, Statistical Inference, Deep Learning, and AI
+                            concepts.</p>
+                        <a href="#start" class="btn-duo-small btn-duo-purple nh-cat-launch-btn"
+                            data-category-id="data-scientist" data-role="Data Scientist">Practice &rarr;</a>
+                    </div>
+
+                    <!-- Category 4: English / Communication -->
+                    <div class="type-card icon-left-type-card" data-category="english-communication">
+                        <div class="type-header-row">
+                            <div class="type-icon icon-gold">🗣️</div>
+                            <div class="type-title-meta">
+                                <h3 class="type-title">English / Communication</h3>
+                            </div>
+                        </div>
+                        <p class="type-desc">Grammar, Vocabulary, Spoken Fluency, Common HR Questions, and Professional
+                            Tone.</p>
+                        <a href="#start" class="btn-duo-small btn-duo-gold nh-cat-launch-btn"
+                            data-category-id="english-communication" data-role="Candidate">Practice &rarr;</a>
+                    </div>
+
+                    <!-- Category 5: General Interview -->
+                    <div class="type-card icon-left-type-card" data-category="general-interview">
+                        <div class="type-header-row">
+                            <div class="type-icon icon-rose">👔</div>
+                            <div class="type-title-meta">
+                                <h3 class="type-title">General Interview</h3>
+                            </div>
+                        </div>
+                        <p class="type-desc">Self-introduction, STAR method behavioral scenarios, workplace ethics, and
+                            career goals.</p>
+                        <a href="#start" class="btn-duo-small btn-duo-coral nh-cat-launch-btn"
+                            data-category-id="general-interview" data-role="Candidate">Practice &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PERFORMANCE PREVIEW / ANALYTICS SECTION -->
+        <section class="analytics-preview-section">
+            <div class="container analytics-container">
+                <!-- Left Text Content -->
+                <div class="analytics-content">
+                    <div class="section-tag">AI feedback engine</div>
+                    <h2 class="section-title">Know What You’re Doing Right — <span class="text-gradient-cyan">And What
+                            To Fix.</span></h2>
+                    <p class="section-subtitle">
+                        AI Interview Analyzer breaks down every interview into measurable skills so you know exactly
+                        where to focus your effort next.
+                    </p>
+
+                    <div class="analytics-checklist">
+                        <div class="check-item">
+                            <div class="check-icon">✓</div>
+                            <div class="check-text">
+                                <strong>Granular Metric Scoring</strong>
+                                <span>Get numeric feedback on 5 core pillars of interview success.</span>
+                            </div>
+                        </div>
+                        <div class="check-item">
+                            <div class="check-icon">✓</div>
+                            <div class="check-text">
+                                <strong>STAR Method Evaluation</strong>
+                                <span>Automatically audit your behavioral responses for Situation, Task, Action &
+                                    Result.</span>
+                            </div>
+                        </div>
+                        <div class="check-item">
+                            <div class="check-icon">✓</div>
+                            <div class="check-text">
+                                <strong>Actionable Improvement Tips</strong>
+                                <span>Receive clear, rephrased sample answers tailored to your responses.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side Analytics Card Mockup -->
+                <div class="analytics-visual">
+                    <div class="analytics-card">
+                        <div class="analytics-header">
+                            <div class="a-header-title">POST-INTERVIEW ANALYTICS</div>
+                            <div class="a-date" id="nhAnalyticsDate">Real-time AI Evaluation</div>
+                        </div>
+
+                        <!-- Overall Score Block -->
+                        <div class="analytics-overall">
+                            <div class="overall-ring" id="nhAnalyticsRing" style="--score-deg: 0deg;">
+                                <div class="overall-ring-inner">
+                                    <span class="ov-score" id="nhAnalyticsOvScore">--</span>
+                                    <span class="ov-max">/100</span>
+                                </div>
+                            </div>
+                            <div class="overall-meta">
+                                <div class="ov-title">Overall Score</div>
+                                <div class="ov-badge" id="nhAnalyticsOvBadge">Practice Required</div>
+                            </div>
+                        </div>
+
+                        <!-- Breakdown List -->
+                        <div class="analytics-breakdown">
+                            <div class="b-row">
+                                <span class="b-label">Accuracy Rate</span>
+                                <div class="b-bar-track">
+                                    <div class="b-bar-fill fill-blue" id="nhAnalyticsCommBar" style="width: 0%;"></div>
+                                </div>
+                                <span class="b-val" id="nhAnalyticsCommVal">0%</span>
+                            </div>
+
+                            <div class="b-row">
+                                <span class="b-label">Verified Answers</span>
+                                <div class="b-bar-track">
+                                    <div class="b-bar-fill fill-green" id="nhAnalyticsConfBar" style="width: 0%;">
+                                    </div>
+                                </div>
+                                <span class="b-val" id="nhAnalyticsConfVal">0%</span>
+                            </div>
+
+                            <div class="b-row">
+                                <span class="b-label">Technical Accuracy</span>
+                                <div class="b-bar-track">
+                                    <div class="b-bar-fill fill-purple" id="nhAnalyticsTechBar" style="width: 0%;">
+                                    </div>
+                                </div>
+                                <span class="b-val" id="nhAnalyticsTechVal">0%</span>
+                            </div>
+
+                            <div class="b-row">
+                                <span class="b-label">Evaluation Integrity</span>
+                                <div class="b-bar-track">
+                                    <div class="b-bar-fill fill-blue" id="nhAnalyticsClarityBar" style="width: 100%;">
+                                    </div>
+                                </div>
+                                <span class="b-val" id="nhAnalyticsClarityVal">100%</span>
+                            </div>
+
+                            <div class="b-row">
+                                <span class="b-label">Question Completion</span>
+                                <div class="b-bar-track">
+                                    <div class="b-bar-fill fill-gold" id="nhAnalyticsStructBar" style="width: 0%;">
+                                    </div>
+                                </div>
+                                <span class="b-val" id="nhAnalyticsStructVal">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS SECTION -->
+        <section class="testimonials-section">
+            <div class="container">
+                <div class="section-header text-left-header">
+                    <div class="section-tag">Success stories</div>
+                    <h2 class="section-title">Built to Make Practice More Effective.</h2>
+                    <p class="section-subtitle">See how students and job seekers transformed their interview confidence.
+                    </p>
+                </div>
+
+                <div class="testimonials-grid">
+                    <!-- Testimonial 1 -->
+                    <div class="testimonial-card">
+                        <div class="stars-row">⭐⭐⭐⭐⭐</div>
+                        <p class="quote-text">
+                            “Instead of wondering whether my answers were good, I finally knew exactly what I needed to
+                            improve.”
+                        </p>
+                        <div class="user-meta">
+                            <div class="user-avatar av-1">AK</div>
+                            <div class="user-info">
+                                <span class="user-name">Arjun Kumar</span>
+                                <span class="user-role">Engineering Student</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 2 -->
+                    <div class="testimonial-card highlight-card">
+                        <div class="stars-row">⭐⭐⭐⭐⭐</div>
+                        <p class="quote-text">
+                            “Practicing with AI made me much more confident before my actual interview. The instant
+                            structure suggestions were a game changer!”
+                        </p>
+                        <div class="user-meta">
+                            <div class="user-avatar av-2">PS</div>
+                            <div class="user-info">
+                                <span class="user-name">Priya Sharma</span>
+                                <span class="user-role">Software Developer</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 3 -->
+                    <div class="testimonial-card">
+                        <div class="stars-row">⭐⭐⭐⭐⭐</div>
+                        <p class="quote-text">
+                            “The XP streak system kept me practicing daily. I went from stumbling on behavioral
+                            questions to landing 2 tech offers!”
+                        </p>
+                        <div class="user-meta">
+                            <div class="user-avatar av-3">DM</div>
+                            <div class="user-info">
+                                <span class="user-name">David Miller</span>
+                                <span class="user-role">CS Graduate</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FINAL CTA SECTION -->
+        <section class="final-cta-section" id="start">
+            <div class="container">
+                <div class="cta-banner">
+                    <div class="cta-badge">Instant access</div>
+                    <h2 class="cta-title">Your Next Interview Could Be Your Best One.</h2>
+                    <p class="cta-subtitle">
+                        Start practicing today and turn every answer into an opportunity to improve.
+                    </p>
+                    <div class="cta-actions">
+                        <a href="#start" class="btn-duo-primary btn-cta-xl" data-wip="true">Start your first
+                            interview</a>
+                    </div>
+                    <p class="cta-subtext">Free to start • Practice anytime</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer" id="about">
+        <div class="container footer-container">
+            <!-- Brand Column -->
+            <div class="footer-col brand-col">
+                <a href="#" class="brand-logo">
+                    <img src="logo.png" alt="NH Brand Logo" class="logo-img">
+                    <span class="brand-name">NH <span class="brand-accent">AI Platform</span></span>
+                </a>
+                <p class="footer-tagline">“Your enterprise partner for AI intelligence, approvals &amp; operational
+                    readiness.”</p>
+            </div>
+
+            <!-- Navigation Links -->
+            <div class="footer-col">
+                <h4 class="footer-heading">Product</h4>
+                <ul class="footer-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#interview-types">Interview Types</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+            </div>
+
+            <!-- Support Links -->
+            <div class="footer-col">
+                <h4 class="footer-heading">Support</h4>
+                <ul class="footer-links">
+                    <li><a href="#help">Help Center</a></li>
+                    <li><a href="#contact">Contact Us</a></li>
+                    <li><a href="#privacy">Privacy Policy</a></li>
+                    <li><a href="#terms">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="container footer-bottom-content">
+                <p>© 2026 AI Interview Analyzer. All rights reserved.</p>
+                <div class="footer-social-links">
+                    <span class="social-text">Built for candidates & job seekers worldwide.</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Work-in-progress toast notification -->
+    <div class="wip-toast" id="wipToast" role="status" aria-live="polite">
+        <span class="wip-toast-icon">🚧</span>
+        <span class="wip-toast-text">We're working on it — check back soon!</span>
+    </div>
+
+    <!-- 1. GUIDANCE CHATBOT FLOATING WIDGET -->
+    <button class="nh-chatbot-fab" id="nhChatbotFab" title="Ask DEFEX">
+        <span>💬</span>
+        <span>Ask DEFEX</span>
+    </button>
+
+    <div class="nh-chatbot-window" id="nhChatbotWindow">
+        <div class="nh-chat-header">
+            <div class="nh-chat-title-group">
+                <div class="nh-chat-avatar">⚡</div>
+                <div>
+                    <h4 class="nh-chat-title">DEFEX</h4>
+                    <span class="nh-chat-status">Ready to guide you</span>
+                </div>
+            </div>
+            <button class="nh-chat-close" id="nhChatCloseBtn" aria-label="Close Chat">&times;</button>
+        </div>
+        <div class="nh-chat-messages" id="nhChatMessages">
+            <div class="nh-chat-msg bot">
+                Hello! I am DEFEX, your AI assistant. I can help you choose the right interview category, navigate the
+                platform, or explain how AI evaluations work. How can I help you today?
+            </div>
+            <div class="nh-chat-suggestions" id="nhChatSuggestions">
+                <button class="nh-chat-suggestion-chip" data-msg="How do I start an interview?">How do I start an
+                    interview?</button>
+                <button class="nh-chat-suggestion-chip" data-msg="Which interview category should I choose?">Which
+                    category should I choose?</button>
+                <button class="nh-chat-suggestion-chip" data-msg="What is Data Analyst interview?">What is Data Analyst
+                    interview?</button>
+                <button class="nh-chat-suggestion-chip" data-msg="What is Data Scientist interview?">What is Data
+                    Scientist interview?</button>
+                <button class="nh-chat-suggestion-chip" data-msg="How does the interview work?">How does the interview
+                    work?</button>
+                <button class="nh-chat-suggestion-chip" data-msg="How can I practice English?">How can I practice
+                    English?</button>
+            </div>
+        </div>
+        <form class="nh-chat-input-area" id="nhChatForm">
+            <input type="text" class="nh-chat-input" id="nhChatInput" placeholder="Ask DEFEX anything..."
+                autocomplete="off">
+            <button type="submit" class="nh-chat-send" id="nhChatSendBtn" aria-label="Send message">➤</button>
+        </form>
+    </div>
+
+    <!-- 2. ENGLISH LEARNING ACADEMY MODAL -->
+    <div class="nh-drawer-modal" id="nhLearningModal">
+        <div class="nh-drawer-box">
+            <div class="nh-drawer-header">
+                <div>
+                    <h3>English &amp; Communication Academy</h3>
+                    <p>Master corporate vocabulary, concise sentence structuring, and interview fluency</p>
+                </div>
+                <button class="nh-chat-close" id="nhCloseLearningBtn">&times;</button>
+            </div>
+            <div class="nh-drawer-body" id="nhLearningBody">
+                <div class="nh-topics-grid" id="nhTopicsGrid">
+                    <!-- Populated dynamically via GET /api/learning/english/topics -->
+                    <div style="padding: 20px; text-align: center; color: var(--text-secondary);">Loading English
+                        Learning topics...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. TRENDING SKILLS & QUESTIONS MODAL -->
+    <div class="nh-drawer-modal" id="nhTrendingModal">
+        <div class="nh-drawer-box" style="max-width: 780px;">
+            <div class="nh-drawer-header">
+                <div>
+                    <h3>Trending Interview Topics &amp; Questions</h3>
+                    <p>High-frequency questions and demanded technical competencies for 2026</p>
+                </div>
+                <button class="nh-chat-close" id="nhCloseTrendingBtn">&times;</button>
+            </div>
+            <div class="nh-drawer-body">
+                <div class="nh-trending-list" id="nhTrendingList">
+                    <!-- Populated dynamically via GET /api/trending -->
+                    <div style="padding: 20px; text-align: center; color: var(--text-secondary);">Loading trending
+                        topics from backend...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            // Theme Toggle Logic
+            var toggleBtn = document.getElementById('themeToggle');
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function () {
+                    var currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+                    var nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', nextTheme);
+                    localStorage.setItem('nh_theme', nextTheme);
+                });
+
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
+                    if (!localStorage.getItem('nh_theme')) {
+                        var newTheme = e.matches ? 'dark' : 'light';
+                        document.documentElement.setAttribute('data-theme', newTheme);
+                    }
+                });
+            }
+
+            // WIP Toast Notification Logic
+            var toast = document.getElementById('wipToast');
+            var hideTimer = null;
+
+            function showToast() {
+                clearTimeout(hideTimer);
+                toast.classList.add('is-visible');
+                hideTimer = setTimeout(function () {
+                    toast.classList.remove('is-visible');
+                }, 2600);
+            }
+
+            document.querySelectorAll('[data-wip="true"]').forEach(function (el) {
+                el.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    showToast();
+                });
+            });
+        })();
+    </script>
+
+    <!-- NextHire Application & Spring Boot REST API Integration -->
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+
+</body>
+
+</html>

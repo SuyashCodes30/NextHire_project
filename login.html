@@ -561,7 +561,13 @@
                     })
                     .catch(function (err) {
                         console.error('Sign in error:', err);
-                        showMsg('❌ Unable to connect to backend server. Ensure Spring Boot is running on port 8080.', true);
+                        var target = (window.NEXTHIRE_CONFIG && typeof window.NEXTHIRE_CONFIG.getApiUrl === 'function')
+                            ? window.NEXTHIRE_CONFIG.getApiUrl() : apiBase;
+                        var isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                        var msg = isLocal
+                            ? '❌ Unable to connect to backend server. Ensure Spring Boot is running on port 8080.'
+                            : '❌ Unable to connect to backend (' + target + '). If your Render free instance is waking up, please wait ~30 seconds and try again.';
+                        showMsg(msg, true);
                         submitBtn.disabled = false;
                         submitBtn.textContent = 'Sign In';
                     });
@@ -664,7 +670,13 @@
                     })
                     .catch(function (err) {
                         console.error('Sign up error:', err);
-                        showMsg('❌ Unable to connect to backend server. Make sure Spring Boot is running on port 8080.', true);
+                        var target = (window.NEXTHIRE_CONFIG && typeof window.NEXTHIRE_CONFIG.getApiUrl === 'function')
+                            ? window.NEXTHIRE_CONFIG.getApiUrl() : apiBase;
+                        var isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                        var msg = isLocal
+                            ? '❌ Unable to connect to backend server. Make sure Spring Boot is running on port 8080.'
+                            : '❌ Unable to connect to backend (' + target + '). If your Render free instance is waking up, please wait ~30 seconds and try again.';
+                        showMsg(msg, true);
                         submitBtn.disabled = false;
                         submitBtn.textContent = 'Create Account';
                     });

@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextHire • Game Arena — Turn Skills Into XP</title>
+    <meta name="description" content="Master interview concepts, algorithms, data analytics, and technical domains through interactive gamified levels and challenges in NextHire Game Arena.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="arena.css">
+    
+    <!-- Config script for unified backend URL -->
+    <script src="config.js"></script>
+</head>
+<body>
+
+    <!-- Confetti Canvas for Victory Celebrations -->
+    <canvas id="confettiCanvas"></canvas>
+
+    <!-- Ambient Glowing Background Elements -->
+    <div class="arena-ambient-bg" aria-hidden="true">
+        <div class="ambient-orb orb-1"></div>
+        <div class="ambient-orb orb-2"></div>
+        <div class="ambient-orb orb-3"></div>
+        <div class="ambient-grid"></div>
+    </div>
+
+    <!-- Main Game Arena Application Layout -->
+    <div class="arena-app">
+
+        <!-- ============================================================
+             1. PERMANENT COLLAPSIBLE LEFT SIDEBAR
+             ============================================================ -->
+        <aside class="arena-sidebar" id="arenaSidebar" aria-label="Game Arena Navigation">
+            <!-- Brand Header -->
+            <div class="brand-area">
+                <a href="#overview" class="brand-link" id="navBrandLogo">
+                    <div class="brand-glyph">🎮</div>
+                    <div class="brand-text">
+                        <span class="brand-title">NEXTHIRE</span>
+                        <span class="brand-tag">GAME ARENA</span>
+                    </div>
+                </a>
+                <button class="btn-sidebar-toggle" id="btnToggleSidebar" aria-label="Toggle Sidebar Navigation" title="Collapse / Expand Sidebar">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="sidebar-nav">
+                <div class="nav-category-header">Arena Hub</div>
+                
+                <a href="#overview" class="nav-item active" data-view="overview" id="navItemOverview">
+                    <span class="nav-icon">⚡</span>
+                    <span class="nav-text">Overview</span>
+                </a>
+                
+                <a href="#careers" class="nav-item" data-view="careers" id="navItemCareers">
+                    <span class="nav-icon">🧭</span>
+                    <span class="nav-text">Explore Careers</span>
+                    <span class="nav-badge">5 Domains</span>
+                </a>
+                
+                <a href="#progress" class="nav-item" data-view="progress" id="navItemProgress">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">My Progress</span>
+                </a>
+                
+                <a href="#daily" class="nav-item" data-view="daily" id="navItemDaily">
+                    <span class="nav-icon">🔥</span>
+                    <span class="nav-text">Daily Challenge</span>
+                    <span class="nav-badge nav-badge-daily">+100 XP</span>
+                </a>
+                
+                <div class="nav-category-header">Mastery</div>
+
+                <a href="#achievements" class="nav-item" data-view="achievements" id="navItemAchievements">
+                    <span class="nav-icon">🏆</span>
+                    <span class="nav-text">Achievements</span>
+                    <span class="nav-badge" id="sidebarAchCount">0/10</span>
+                </a>
+                
+                <a href="#leaderboard" class="nav-item" data-view="leaderboard" id="navItemLeaderboard">
+                    <span class="nav-icon">👑</span>
+                    <span class="nav-text">Leaderboard</span>
+                </a>
+
+                <div class="nav-category-header">System</div>
+
+                <a href="index.html" class="nav-item nav-item-back" id="navItemBackNextHire">
+                    <span class="nav-icon">↩️</span>
+                    <span class="nav-text">Back to NextHire</span>
+                </a>
+            </nav>
+
+            <!-- User Profile & Settings at Sidebar Bottom -->
+            <div class="sidebar-footer">
+                <div class="user-card-mini" id="btnOpenProfileModal" title="Account & Game Settings">
+                    <div class="user-avatar-mini" id="sidebarUserAvatar">👤</div>
+                    <div class="user-details">
+                        <span class="user-name-mini" id="sidebarUserName">Candidate</span>
+                        <span class="user-xp-mini"><span id="sidebarUserXp">0</span> XP • Lvl <span id="sidebarUserTier">1</span></span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ============================================================
+             2. TOPBAR & MAIN CONTENT
+             ============================================================ -->
+        <div class="arena-main">
+            <!-- Topbar Header -->
+            <header class="arena-topbar">
+                <div class="topbar-breadcrumbs">
+                    <button class="btn-mobile-nav" id="btnMobileNavToggle" aria-label="Open Navigation Menu">☰</button>
+                    <span>Arena</span>
+                    <span>/</span>
+                    <span class="crumb-current" id="topbarCurrentViewTitle">Overview</span>
+                </div>
+
+                <div class="topbar-actions">
+                    <!-- Live Streak Pill -->
+                    <div class="hud-pill hud-pill-streak" title="Daily Streak Active">
+                        <span>🔥</span>
+                        <span id="topbarStreakVal">7 Days</span>
+                    </div>
+
+                    <!-- Live XP Pill -->
+                    <div class="hud-pill hud-pill-xp" title="Total Career XP Points">
+                        <span>⚡</span>
+                        <span id="topbarXpVal">250 XP</span>
+                    </div>
+
+                    <!-- Sound FX Toggle Pill -->
+                    <button class="hud-pill hud-pill-audio" id="btnToggleAudio" aria-label="Toggle Sound Effects" title="Sound Effects">
+                        <span id="audioIcon">🔊</span>
+                        <span id="audioText">SFX</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- ============================================================
+                 SCREEN 1: OVERVIEW DASHBOARD (#view-overview)
+                 ============================================================ -->
+            <section class="arena-view" id="view-overview">
+                <!-- Hero Card -->
+                <div class="arena-hero-card">
+                    <div class="hero-content">
+                        <div class="hero-eyebrow">NEXTHIRE • GAME ARENA</div>
+                        <h1 class="hero-heading">Turn Your Skills<br>Into XP.</h1>
+                        <p class="hero-subtitle">
+                            Play smarter. Master your domain. Get interview-ready through authentic interactive challenges and level progression.
+                        </p>
+                        <div class="hero-actions">
+                            <button class="glass-button glass-button-primary" id="btnHeroPrimaryCTA">
+                                <span>⚡</span>
+                                <span id="heroPrimaryCtaText">Start Exploring</span>
+                            </button>
+                            <button class="glass-button glass-button-secondary" id="btnHeroSecondaryCTA">
+                                <span>🧭</span>
+                                <span>Explore All Domains</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Holographic Visual in Hero -->
+                    <div class="hero-visual-container">
+                        <div class="hologram-stage">
+                            <div class="hologram-ring ring-outer"></div>
+                            <div class="hologram-ring ring-inner"></div>
+                            <div class="hologram-core">
+                                <span class="core-icon">🎮</span>
+                                <span class="core-label">ARENA V2</span>
+                            </div>
+                            <!-- Floating Stat Badges -->
+                            <div class="floating-stat-badge badge-pos-1">
+                                <span>🏆</span>
+                                <span>5 Career Tracks</span>
+                            </div>
+                            <div class="floating-stat-badge badge-pos-2">
+                                <span>⚡</span>
+                                <span>Boss Battle Ready</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Area (Live Stored Progress) -->
+                <div class="arena-stats-grid">
+                    <div class="stat-metric-card">
+                        <div class="stat-icon-wrap" style="background: rgba(56, 189, 248, 0.12); color: #38bdf8;">⚡</div>
+                        <div class="stat-info">
+                            <span class="stat-val" id="statsTotalXp">0</span>
+                            <span class="stat-title">Total XP Earned</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-metric-card">
+                        <div class="stat-icon-wrap" style="background: rgba(168, 85, 247, 0.12); color: #a855f7;">🎮</div>
+                        <div class="stat-info">
+                            <span class="stat-val" id="statsGamesCompleted">0</span>
+                            <span class="stat-title">Games Completed</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-metric-card">
+                        <div class="stat-icon-wrap" style="background: rgba(249, 115, 22, 0.12); color: #f97316;">🔥</div>
+                        <div class="stat-info">
+                            <span class="stat-val" id="statsCurrentStreak">1</span>
+                            <span class="stat-title">Current Streak</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-metric-card">
+                        <div class="stat-icon-wrap" style="background: rgba(16, 185, 129, 0.12); color: #10b981;">🎯</div>
+                        <div class="stat-info">
+                            <span class="stat-val" id="statsAccuracy">0%</span>
+                            <span class="stat-title">Overall Accuracy</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-metric-card">
+                        <div class="stat-icon-wrap" style="background: rgba(245, 158, 11, 0.12); color: #f59e0b;">⭐</div>
+                        <div class="stat-info">
+                            <span class="stat-val" id="statsTotalStars">0 / 75</span>
+                            <span class="stat-title">Stars Collected</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Five Large Career-Domain Cards -->
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">Career Arena Domains</h2>
+                        <p class="section-subtitle">Select a discipline to begin your progressive skill gauntlet.</p>
+                    </div>
+                </div>
+
+                <div class="domains-grid" id="domainsOverviewGrid">
+                    <!-- Populated dynamically via arena.js -->
+                </div>
+            </section>
+
+            <!-- ============================================================
+                 SCREEN 2: EXPLORE CAREERS (#view-careers)
+                 ============================================================ -->
+            <section class="arena-view hidden" id="view-careers">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">Explore Career Tracks</h2>
+                        <p class="section-subtitle">Deep dive into specific interview domains, topics, and level paths.</p>
+                    </div>
+                </div>
+
+                <div class="domains-grid" id="domainsExploreGrid">
+                    <!-- Populated dynamically via arena.js -->
+                </div>
+            </section>
+
+            <!-- ============================================================
+                 SCREEN 3: DOMAIN LEVELS MAP (#view-levels)
+                 ============================================================ -->
+            <section class="arena-view hidden" id="view-levels">
+                <div class="level-map-container">
+                    <div class="domain-map-hero glass-panel" id="domainMapHero">
+                        <div>
+                            <span class="hero-eyebrow" id="mapHeroTagline">TRACK ROADMAP</span>
+                            <h2 class="section-title" id="mapHeroTitle">Data Analytics</h2>
+                            <p class="section-subtitle" id="mapHeroDesc">Progress from syntax rookie to boss-level analytics architect.</p>
+                        </div>
+                        <button class="glass-button glass-button-secondary" id="btnBackToDomains">
+                            <span>↩️</span>
+                            <span>All Tracks</span>
+                        </button>
+                    </div>
+
+                    <div class="levels-path" id="levelsPathList">
+                        <!-- Populated dynamically via arena.js -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================================
+                 SCREEN 4: GAMEPLAY QUIZ ARENA (#view-gameplay)
+                 ============================================================ -->
+            <section class="arena-view hidden" id="view-gameplay">
+                <div class="gameplay-layout">
+                    <!-- HUD Status Bar -->
+                    <div class="gameplay-hud-bar">
+                        <div class="hud-left">
+                            <div class="timer-container">
+                                <div class="timer-circle" id="gameplayTimerCircle">30</div>
+                            </div>
+                            <div class="hud-progress-info">
+                                <span class="hud-question-step" id="gameplayQuestionStep">Question 1 of 5</span>
+                                <span class="hud-domain-name" id="gameplayDomainTitle">Software Development • Level 1</span>
+                            </div>
+                        </div>
+
+                        <div class="hud-right" style="display: flex; align-items: center; gap: 1rem;">
+                            <!-- Streak Combo Multiplier -->
+                            <div class="combo-multiplier-pill" id="gameplayComboPill" style="display: none;">
+                                <span>🔥</span>
+                                <span id="comboMultiplierText">2x Multiplier</span>
+                            </div>
+
+                            <!-- Live XP Counter -->
+                            <div class="hud-pill hud-pill-xp">
+                                <span>⚡</span>
+                                <span id="gameplayCurrentXpVal">+0 XP</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lifelines Toolbar -->
+                    <div class="lifelines-bar">
+                        <button class="btn-lifeline" id="btnLifeline5050" title="Eliminate two incorrect options">
+                            <span>✂️</span>
+                            <span>50:50 Lifeline</span>
+                        </button>
+                        <button class="btn-lifeline" id="btnLifelineHint" title="Reveal concept clue">
+                            <span>💡</span>
+                            <span>Hint</span>
+                        </button>
+                        <button class="btn-lifeline" id="btnLifelineTime" title="Add 15 seconds to clock">
+                            <span>⏱️</span>
+                            <span>+15s Time</span>
+                        </button>
+                    </div>
+
+                    <!-- Main Question Card -->
+                    <div class="question-card-main">
+                        <h3 class="question-text-title" id="gameplayQuestionText">Loading challenge question...</h3>
+                        
+                        <!-- Code Snippet Box (hidden if no code) -->
+                        <div class="code-snippet-box" id="gameplayCodeSnippet" style="display: none;"></div>
+
+                        <!-- 4 Options -->
+                        <div class="options-list" id="gameplayOptionsList">
+                            <!-- Populated dynamically -->
+                        </div>
+
+                        <!-- Slide-Down Explanation Panel -->
+                        <div class="explanation-panel" id="gameplayExplanationPanel" style="display: none;">
+                            <div class="explanation-header" id="explanationHeader">
+                                <span id="explanationIcon">💡</span>
+                                <span id="explanationTitle">Explanation & Breakdown</span>
+                            </div>
+                            <p class="explanation-body" id="explanationBody"></p>
+                            <div class="concept-pill-badge" id="explanationKeyConcept">
+                                <span>📌</span>
+                                <span id="conceptText">Key Concept</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gameplay Footer -->
+                    <div class="gameplay-footer-actions">
+                        <button class="glass-button glass-button-primary" id="btnNextQuestion" style="display: none;">
+                            <span id="nextQuestionBtnText">Next Question</span>
+                            <span>➔</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================================
+                 SCREEN 5: RESULTS & VICTORY SCREEN (#view-results)
+                 ============================================================ -->
+            <section class="arena-view hidden" id="view-results">
+                <div class="results-card-container glass-panel" style="padding: 3.5rem 3rem;">
+                    <div class="victory-badge-graphic" id="resultsVictoryIcon">🏆</div>
+                    <h2 class="results-heading" id="resultsTitle">Level Conquered!</h2>
+                    <p class="results-subtitle" id="resultsFeedbackMsg">Flawless execution! You demonstrated advanced technical mastery.</p>
+
+                    <!-- Stars Row -->
+                    <div class="results-stars-row" id="resultsStarsRow">
+                        <span class="result-star-icon filled">★</span>
+                        <span class="result-star-icon filled">★</span>
+                        <span class="result-star-icon filled">★</span>
+                    </div>
+
+                    <!-- Stats Scoreboard -->
+                    <div class="results-stats-panel">
+                        <div class="results-stat-box">
+                            <div class="results-stat-val" id="resultsXpEarned">+120 XP</div>
+                            <div class="results-stat-lbl">XP Earned</div>
+                        </div>
+                        <div class="results-stat-box">
+                            <div class="results-stat-val" id="resultsAccuracyVal">100%</div>
+                            <div class="results-stat-lbl">Accuracy</div>
+                        </div>
+                        <div class="results-stat-box">
+                            <div class="results-stat-val" id="resultsTimeTaken">42s</div>
+                            <div class="results-stat-lbl">Time Taken</div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="results-actions-row">
+                        <button class="glass-button glass-button-primary" id="btnResultNextLevel">
+                            <span>➔</span>
+                            <span>Next Level</span>
+                        </button>
+                        <button class="glass-button glass-button-secondary" id="btnResultReplay">
+                            <span>🔄</span>
+                            <span>Play Again</span>
+                        </button>
+                        <button class="glass-button glass-button-secondary" id="btnResultBackDomains">
+                            <span>🧭</span>
+                            <span>Career Tracks</span>
+                        </button>
+                    </div>
+
+                    <!-- Detailed Question Review Accordion -->
+                    <div class="review-accordion-wrap">
+                        <h4 style="margin-bottom: 1rem; font-size: 1.15rem;">Review Answers & Takeaways</h4>
+                        <div id="resultsReviewList"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================================
+                 SCREEN 6: DAILY CHALLENGE (#view-daily)
+                 ============================================================ -->
+            <section class="arena-view hidden" id="view-daily">
+                <div class="daily-challenge-hero">
+                    <div>
+                        <span class="hero-eyebrow" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; border-color: rgba(245, 158, 11, 0.4);">
+                            DAILY SPRINT • BONUS XP
+                        </span>
+                        <h2 class="section-title" id="dailyHeroTitle">Daily Cross-Domain Challenge</h2>
+                        <p class="section-subtitle" id="dailyHeroDesc">
+                            5 questions hand-picked across all 5 career tracks. Keep your daily streak fiery!
+                        </p>
+                        <div style="margin-top: 1.5rem;">
+                            <button class="glass-button glass-button-primary" id="btnStartDailyChallenge" style="background: linear-gradient(135deg, #f59e0b, #f97316);">
+                                <span>🔥</span>
+                                <span>Launch Daily Sprint (+100 XP)</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Live Daily Countdown Timer -->
+                    <div>
+                        <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.5rem; text-align: center;">RESETS IN</div>
+                        <div class="countdown-box">
+                            <div class="time-slot">
+                                <span class="time-slot-num" id="dailyHours">07</span>
+                                <span class="time-slot-label">HRS</span>
+                            </div>
+                            <div class="time-slot">
+                                <span class="time-slot-num" id="dailyMinutes">24</span>
+                                <span class="time-slot-label">MIN</span>
+                            </div>
+                            <div class="time-slot">
+                                <span class="time-slot-num" id="dailySeconds">39</span>
+                                <span class="time-slot-label">SEC</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================================
+                 SCREEN 7: ACHIEVEMENTS SCREEN (#view-achievements)
+                 ============================================================ -->
+            <section class="arena-view hidden" id="view-achievements">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">Career Achievements</h2>
+                        <p class="section-subtitle">Unlock badges, milestones, and XP bonuses through arena gameplay.</p>
+                    </div>
+                </div>
+
+                <div class="achievements-grid" id="achievementsGrid">
+                    <!-- Populated dynamically via arena.js -->
+                </div>
+            </section>
+
+            <!-- ============================================================
+                 SCREEN 8: LEADERBOARD SCREEN (#view-leaderboard)
+                 ============================================================ -->
+            <section class="arena-view hidden" id="view-leaderboard">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">Arena Champions Leaderboard</h2>
+                        <p class="section-subtitle">Top career contenders ranked by total verified XP and mastery.</p>
+                    </div>
+                </div>
+
+                <!-- Top 3 Podium -->
+                <div class="leaderboard-podium" id="leaderboardPodium">
+                    <!-- Populated dynamically via arena.js -->
+                </div>
+
+                <!-- Leaderboard Table -->
+                <div class="leaderboard-table-card">
+                    <table class="lb-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Challenger</th>
+                                <th>Role Focus</th>
+                                <th>Streak</th>
+                                <th>Stars</th>
+                                <th>Total XP</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboardTableBody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- ============================================================
+         PROFILE & SETTINGS MODAL (#modal-profile)
+         ============================================================ -->
+    <div class="modal-overlay hidden" id="modalProfileOverlay">
+        <div class="modal-glass-container">
+            <button class="modal-close-btn" id="btnCloseProfileModal" aria-label="Close Modal">✕</button>
+            
+            <h3 style="font-size: 1.4rem; margin-bottom: 0.4rem;">Arena Profile & Settings</h3>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1.5rem;">Manage your player identity, sound preferences, and session progress.</p>
+
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; padding: 1rem; border-radius: var(--radius-md); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);">
+                <div style="width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, #a855f7, #3b82f6); display: flex; align-items: center; justify-content: center; font-size: 1.6rem;" id="modalAvatarPreview">🎮</div>
+                <div>
+                    <h4 id="modalUserName" style="font-size: 1.1rem;">Candidate</h4>
+                    <span style="font-size: 0.8rem; color: var(--accent-cyan); font-weight: 700;" id="modalUserRole">NextHire Arena Challenger</span>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;">
+                <label style="display: flex; align-items: center; justify-content: space-between; font-size: 0.92rem; font-weight: 600; cursor: pointer;">
+                    <span>Audio Synthesizer Sound Effects</span>
+                    <input type="checkbox" id="chkModalSound" checked style="width: 18px; height: 18px; accent-color: #a855f7;">
+                </label>
+                <label style="display: flex; align-items: center; justify-content: space-between; font-size: 0.92rem; font-weight: 600; cursor: pointer;">
+                    <span>High-Contrast Glass Borders</span>
+                    <input type="checkbox" id="chkModalContrast" style="width: 18px; height: 18px; accent-color: #a855f7;">
+                </label>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem; justify-content: flex-end; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.25rem;">
+                <button class="glass-button glass-button-secondary" id="btnResetArenaProgress" style="color: #ef4444; border-color: rgba(239,68,68,0.3);">
+                    <span>⚠️</span>
+                    <span>Reset Arena Stats</span>
+                </button>
+                <button class="glass-button glass-button-primary" id="btnSaveProfile">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Arena Logic -->
+    <script src="arena.js"></script>
+</body>
+</html>

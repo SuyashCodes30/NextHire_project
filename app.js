@@ -399,7 +399,11 @@
 
         } catch (err) {
             console.error('❌ Failed to start interview:', err);
-            showModalError(`Failed to connect to backend: ${err.message}. Please verify the Spring Boot server is running on port 8080.`);
+            const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            const hint = isLocal
+                ? 'Please verify the Spring Boot server is running on port 8080.'
+                : 'If your Render backend is waking up (free tier cold-start), please wait 30 seconds and try again.';
+            showModalError(`Failed to connect to backend (${API_BASE_URL}): ${err.message}. ${hint}`);
         }
     }
 
@@ -1489,7 +1493,10 @@
                 }
             } catch (err) {
                 console.error('Chatbot API error:', err);
-                loadingBubble.textContent = "Could not connect to NextHire Guidance Service. Please ensure the backend is running at http://localhost:8080.";
+                const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                loadingBubble.textContent = isLocal
+                    ? "Could not connect to NextHire Guidance Service. Please ensure the backend is running at http://localhost:8080."
+                    : `Could not connect to NextHire Guidance Service (${API_BASE_URL}). If your Render backend is waking up, please retry in a moment.`;
             }
 
             msgs.scrollTop = msgs.scrollHeight;
