@@ -18,7 +18,7 @@
     // When you deploy your backend on Render, Render will assign a URL like:
     // https://nexthire-backend.onrender.com (or https://nexthire-backend-xxxx.onrender.com)
     // Update the URL below with your actual Render service URL!
-    var DEPLOYED_RENDER_URL = 'https://nexthire-backend.onrender.com';
+    var DEPLOYED_RENDER_URL = 'https://nexthire-project.onrender.com';
 
     // =========================================================================
     // 2. RUNTIME OVERRIDE DETECTION (?apiUrl=... or ?backend=... or localStorage)
